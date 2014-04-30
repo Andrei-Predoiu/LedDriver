@@ -1,6 +1,10 @@
 LedDriver
 =========
 
+Original C code by razius
+https://github.com/razius/m1280-drivers
+
+
 Todo: 
 1. Fix error when trying to icecap
 2. Implenet the native method needed to enable intrerupts( just call sei() )

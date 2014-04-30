@@ -21,7 +21,11 @@ public class driver {
 	static int current_display = 0;
 	// uint8_t previous_display = -1;
 	int previous_display = -1;
+
 	// initializing ports
+
+	public native static void enableInterrupts();
+
 	static Port DDRB = new Port(0x04);
 	static Port DDRK = new Port(0x107);
 	static Port DDRL = new Port(0x10A);
@@ -119,21 +123,20 @@ public class driver {
 		SPCR.port = (byte) 0b11001111;
 	}
 
+	static int value_digit;
 	private static class TimerHandler implements InterruptHandler {
-		private Port PORTH;
 
 		public TimerHandler() {
-			int value_digit = value_by_digits[current_display];
-			if (value_digit != -1) {
-				spi_init();
-				SPDR.port = (byte) value_digit;
-			}
 		}
 
 		@Override
 		@IcecapCompileMe
 		public void handle() {
-			PORTH.port ^= (byte) 0xff;
+			 value_digit = value_by_digits[current_display];
+			if (value_digit != -1) {
+				spi_init();
+				SPDR.port = (byte) value_digit;
+			}
 		}
 
 		@Override
@@ -150,6 +153,7 @@ public class driver {
 	}
 
 	public static void main(String args[]) {
+		enableInterrupts();
 		ATMega2560InterruptDispatcher.init();
 		InterruptDispatcher.registerHandler(new TimerHandler(), (byte) 17);
 		display_init();
