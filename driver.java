@@ -86,7 +86,7 @@ public class driver {
 			value_by_digits[i] = DIGIT[digit];
 			// Add the decimal point.2
 			if (i == numbers_of_decimals && numbers_of_decimals != 0) {
-				value_by_digits[i] |= 1;
+				value_by_digits[i] = 1;
 			}
 		}
 	}
