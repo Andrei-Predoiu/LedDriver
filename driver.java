@@ -1,11 +1,11 @@
-package AtmelProject.LedDriver;
+package atmelProject.ledDriver;
 
 import devices.AVR.ATMega2560.ATMega2560InterruptDispatcher;
 import icecaptools.IcecapCompileMe;
 import vm.InterruptDispatcher;
 import vm.InterruptHandler;
 
-public class driver {
+public class Driver {
 	// const uint8_t DISPLAY[4] = {PL0, PL1, PL2, PL3};
 	int DISPLAY[] = { 0b1, 0b10, 0b11, 0b110 };
 	// const uint8_t DIGIT[10] = {0xFC, 0x60, 0xDA, 0xF2, 0x66, 0xB6, 0xBE,

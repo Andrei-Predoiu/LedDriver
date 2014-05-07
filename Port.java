@@ -1,4 +1,4 @@
-package AtmelProject.LedDriver;
+package atmelProject.ledDriver;
 
 import vm.Address32Bit;
 import vm.HardwareObject;
