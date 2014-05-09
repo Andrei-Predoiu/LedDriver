@@ -1,5 +1,6 @@
 package atmelProject.ledDriver;
 
+import atmelProject.lEDBlink.Port;
 import devices.AVR.ATMega2560.ATMega2560InterruptDispatcher;
 import icecaptools.IcecapCompileMe;
 import vm.InterruptDispatcher;
@@ -20,7 +21,7 @@ public class Driver {
 	// uint8_t current_display = 0;
 	static int current_display = 0;
 	// uint8_t previous_display = -1;
-	int previous_display = -1;
+	static int previous_display = -1;
 
 	// initializing ports
 
@@ -36,6 +37,8 @@ public class Driver {
 	static Port PORTL = new Port(0x10B);
 	static Port SPDR = new Port(0X2E);
 	static Port SPCR = new Port(0x2C);
+	static Port DDRH = new Port(0x101);
+	static Port PORTH = new Port(0x102);
 
 	/**
 	 * @ingroup display
@@ -65,6 +68,8 @@ public class Driver {
 		// // Enable Timer/Counter0 overflow interrupt.
 		// TIMSK0 = _BV(TOIE0);
 		TIMSK0.port = (byte) 0b100;
+		DDRH.port = (byte) 0xff;
+		PORTH.port = (byte) 0xff;
 	}
 
 	/**
@@ -91,7 +96,7 @@ public class Driver {
 		}
 	}
 
-	void _turn_display_on() {
+	static void _turn_display_on() {
 		// Send the value to the storage register.
 		// CLOCK_PIN(PORTK, PK3);
 		PORTK.port = (byte) 0b00010000;
@@ -124,6 +129,7 @@ public class Driver {
 	}
 
 	static int value_digit;
+
 	private static class TimerHandler implements InterruptHandler {
 
 		public TimerHandler() {
@@ -132,11 +138,12 @@ public class Driver {
 		@Override
 		@IcecapCompileMe
 		public void handle() {
-			 value_digit = value_by_digits[current_display];
-			if (value_digit != -1) {
-				spi_init();
-				SPDR.port = (byte) value_digit;
-			}
+			PORTH.port = (byte) 0x00;
+			// value_digit = value_by_digits[current_display];
+			// if (value_digit != -1) {
+			// spi_init();
+			// SPDR.port = (byte) value_digit;
+			// }
 		}
 
 		@Override
