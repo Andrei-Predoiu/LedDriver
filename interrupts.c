@@ -4,14 +4,13 @@
 #include "ostypes.h"
 
 int16 vm_InterruptDispatcher_interrupt(int32 *fp, int8 n);
-int32 isrMethodStack[128];
- 
- int16 n_atmelProject_ledDriver_Driver_enableInterrupts(){
+int32 isrMethodStack[256];
+
+int16 n_atmelProject_ledDriver_Driver_enableInterrupts() {
 	sei();
 	return -1;
- }
+}
 
-ISR(TIMER1_COMPA_vect)
-{
-	vm_InterruptDispatcher_interrupt(&isrMethodStack[0],17);
+ISR( TIMER0_OVF_vect) {
+	vm_InterruptDispatcher_interrupt(&isrMethodStack[0], 24);
 }
